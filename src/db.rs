@@ -63,7 +63,7 @@ impl JiraDatabase {
             }
             None => return Err(anyhow!("Invalid")),
         }
-        self.database.write_db(&db_state);
+        self.database.write_db(&db_state)?;
         Ok(next_int)
     }
     

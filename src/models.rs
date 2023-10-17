@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, fmt::Display};
 use serde::{Serialize, Deserialize};
 
 
@@ -8,6 +8,17 @@ pub enum Status {
     InProgress,
     Resolved,
     Closed
+}
+
+impl Display for Status {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match *self {
+            Status::Open => write!(f, "OPEN"),
+            Status::InProgress => write!(f, "IN PROGRESS"),
+            Status::Resolved => write!(f, "RESOLVED"),
+            Status::Closed => write!(f, "Closed"),
+        }
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Clone)]

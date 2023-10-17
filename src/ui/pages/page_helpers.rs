@@ -1,8 +1,34 @@
+use std::cmp::Ordering;
+
 use ellipse::Ellipse;
 
 pub fn get_column_string(text: &str, width: usize) -> String {
-    todo!() // use the truncate_ellipse function from the ellipse crate
-    
+    let text_len = text.len();
+
+    match text_len.cmp(&width) {
+        Ordering::Equal => text.to_owned(),
+        Ordering::Less => {
+            let chars_left = width - text_len;
+            let mut col_str = text.to_owned();
+            for _ in 0..chars_left {
+                col_str.push(' ');
+            }
+            col_str
+        },
+        Ordering::Greater => {
+            if width == 0 {
+                return "".to_owned();
+            } else if width == 1 {
+                return ".".to_owned();
+            } else if width == 2 {
+                return "..".to_owned();
+            } else if width == 3 {
+                return "...".to_owned();
+            }
+            let res = text.truncate_ellipse(width-3);
+            res.to_string()
+        }
+    }
 }
 
 #[cfg(test)]

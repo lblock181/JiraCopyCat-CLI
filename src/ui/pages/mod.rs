@@ -1,5 +1,6 @@
 use std::rc::Rc;
 
+use anyhow::Ok;
 use itertools::Itertools;
 use anyhow::Result;
 use anyhow::anyhow;
@@ -34,7 +35,15 @@ impl Page for HomePage {
     }
 
     fn handle_input(&self, input: &str) -> Result<Option<Action>> {
-        todo!() // match against the user input and return the corresponding action. If the user input was invalid return None.
+        // todo!() // match against the user input and return the corresponding action. If the user input was invalid return None.
+        match input {
+            "q" => Some(Ok(Action::Exit)),
+            "c" => Some(Ok(Action::CreateEpic)),
+            "p" => Some(Ok(Action::NavigateToPreviousPage)),
+            "u" => Some(Ok(Action::UpdateEpicStatus { epic_id: () })),
+            "d" => Some(Ok(Action::DeleteEpic { epic_id: () })),
+            _ => None,
+        }
     }
 }
 

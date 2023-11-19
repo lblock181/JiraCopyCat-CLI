@@ -11,9 +11,13 @@ pub fn get_column_string(text: &str, width: usize) -> String {
             let chars_left = width - text_len;
             let mut col_str = text.to_owned();
             for _ in 0..chars_left {
-                col_str.push(' ');
-            }
-            col_str
+                    col_str.push(' ');
+                }
+                col_str
+                // This code will be used to center the values by padding the data.
+                // will probably need some sort of override for the description or other longer strings
+                // let padding = ((width + 1) - text_len) / 2;
+                // format!("{}{}{}"," ".repeat(padding), text, " ".repeat(padding))
         },
         Ordering::Greater => {
             if width == 0 {

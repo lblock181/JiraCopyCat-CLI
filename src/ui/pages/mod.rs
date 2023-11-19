@@ -9,7 +9,10 @@ use crate::db::JiraDatabase;
 use crate::models::Action;
 
 mod page_helpers;
-use page_helpers::*;
+use page_helpers::get_column_string;
+
+//todo!("get terminal size to use for output display. want to center align output");
+// use term_size::*;
 
 pub trait Page {
     fn draw_page(&self) -> Result<()>;
@@ -32,9 +35,9 @@ impl Page for HomePage {
         let epics = self.db.read_db()?.epics;
         for id in epics.keys().sorted() {
             let epic = &epics[id];
-            let id_str = page_helpers::get_column_string(&id.to_string(), id_span);
-            let name_str = page_helpers::get_column_string(&epic.name, name_span);
-            let status_str = page_helpers::get_column_string(&epic.status.to_string(), status_span);
+            let id_str = get_column_string(&id.to_string(), id_span);
+            let name_str = get_column_string(&epic.name, name_span);
+            let status_str = get_column_string(&epic.status.to_string(), status_span);
             println!("{}|{}|{}", id_str, name_str, status_str);
         }
 
@@ -96,7 +99,7 @@ impl Page for EpicDetail {
         println!("------------------------------ EPIC ------------------------------");
         println!("  id  |     name     |         description         |    status    ");
 
-        let id_span_epic: usize = 4;
+        let id_span_epic: usize = 6;
         let name_span_epic: usize = 14;
         let descr_span_epic: usize = 29;
         let status_span_epic: usize = 14;
@@ -105,10 +108,10 @@ impl Page for EpicDetail {
         
         for id in epics.keys().sorted() {
             let epic = &epics[id];
-            let id_str = page_helpers::get_column_string(&id.to_string(), id_span_epic);
-            let name_str = page_helpers::get_column_string(&epic.name, name_span_epic);
-            let descr_str = page_helpers::get_column_string(&epic.description, descr_span_epic);
-            let status_str = page_helpers::get_column_string(&epic.status.to_string(), status_span_epic);
+            let id_str = get_column_string(&id.to_string(), id_span_epic);
+            let name_str = get_column_string(&epic.name, name_span_epic);
+            let descr_str = get_column_string(&epic.description, descr_span_epic);
+            let status_str = get_column_string(&epic.status.to_string(), status_span_epic);
             println!("{}|{}|{}|{}", id_str, name_str, descr_str, status_str);
         }
         
@@ -126,9 +129,9 @@ impl Page for EpicDetail {
         
         for id in epic.stories.iter().sorted() {
             let story = &stories[id];
-            let id_str = page_helpers::get_column_string(&id.to_string(), id_span_story);
-            let name_str = page_helpers::get_column_string(&story.name, name_span_story);
-            let status_str = page_helpers::get_column_string(&story.status.to_string(), status_span_story);
+            let id_str = get_column_string(&id.to_string(), id_span_story);
+            let name_str = get_column_string(&story.name, name_span_story);
+            let status_str = get_column_string(&story.status.to_string(), status_span_story);
             println!("{}|{}|{}", id_str, name_str, status_str);
         }
 
@@ -185,10 +188,10 @@ impl Page for StoryDetail {
         let descr_span_story: usize = 29;
         let status_span_story: usize = 14;
         
-        let id_str = page_helpers::get_column_string(&self.story_id.to_string(), id_span_story);
-        let name_str = page_helpers::get_column_string(&story.name, name_span_story);
-        let descr_str = page_helpers::get_column_string(&story.description, descr_span_story);
-        let status_str = page_helpers::get_column_string(&story.status.to_string(), status_span_story);
+        let id_str = get_column_string(&self.story_id.to_string(), id_span_story);
+        let name_str = get_column_string(&story.name, name_span_story);
+        let descr_str = get_column_string(&story.description, descr_span_story);
+        let status_str = get_column_string(&story.status.to_string(), status_span_story);
         println!("{}|{}|{}|{}", id_str, name_str, descr_str, status_str);
         
         println!();

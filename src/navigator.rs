@@ -39,29 +39,35 @@ impl Navigator {
             }
             Action::CreateEpic => {
                 let epic = (self.prompts.create_epic)();
-                self.db.create_epic(epic).with_context(|| anyhow!("Failed to create epic"));
+                self.db.create_epic(epic).with_context(|| anyhow!("Failed to create epic"))?;
             }
             Action::UpdateEpicStatus { epic_id } => {
                 let epic_update = (self.prompts.update_status)();
-                self.db.update_epic_status(epic_id, epic_update.unwrap()).with_context(|| anyhow!("Failed to update Epic"));
+                if let Some(status) = epic_update {
+                    self.db.update_epic_status(epic_id, status).with_context(|| anyhow!("Failed to update Epic"))?;
+                    
+                }
             }
             Action::DeleteEpic { epic_id } => {
                 if (self.prompts.delete_epic)() {
-                    self.db.delete_epic(epic_id);
+                    self.db.delete_epic(epic_id)?;
                 }
 
             }
             Action::CreateStory { epic_id } => {
                 let story = (self.prompts.create_story)();
-                self.db.create_story(story, epic_id);
+                self.db.create_story(story, epic_id)?;
             }
             Action::UpdateStoryStatus { story_id } => {
                 let story_update = (self.prompts.update_status)();
-                self.db.update_story_status(story_id, story_update.unwrap()).with_context(|| anyhow!("Failed to update Story status"));
+                if let Some(status) = story_update {
+                    self.db.update_story_status(story_id, status).with_context(|| anyhow!("Failed to update Story status"))?;
+                }
+                // self.db.update_story_status(story_id, story_update.unwrap()).with_context(|| anyhow!("Failed to update Story status"));
             }
             Action::DeleteStory { epic_id, story_id } => {
                 if (self.prompts.delete_story)() {
-                    self.db.delete_story(epic_id, story_id);
+                    self.db.delete_story(epic_id, story_id)?;
                 }
             }
             Action::Exit => {

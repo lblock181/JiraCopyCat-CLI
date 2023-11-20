@@ -60,7 +60,7 @@ fn update_status_prompt() -> Option<Status> {
     print_separator_line();
     println!("Update status");
     println!("New Status (1-OPEN, 2-IN PROGRESS, 3-RESOLVED, 4-CLOSED");
-    let status_resp = get_user_input().parse::<u8>();
+    let status_resp = get_user_input().trim().parse::<u8>();
     if let Ok(status_resp) = status_resp {
         match status_resp {
             1 => {return Some(Status::Open);},

@@ -2,16 +2,16 @@ use std::rc::Rc;
 
 mod models;
 mod db;
-use db::*;
+use db::JiraDatabase;
 mod ui;
 mod io_utils;
 use io_utils::*;
 mod navigator;
-use navigator::*;
+use navigator::Navigator;
 
 fn main() {
-    let db = Rc::new(db::JiraDatabase::new("./data/db_dev.json".to_owned()));
-    let mut navigator = navigator::Navigator::new(db);
+    let db: Rc<JiraDatabase> = Rc::new(JiraDatabase::new("./data/db_dev.json".to_owned()));
+    let mut navigator: Navigator = Navigator::new(db);
 
     loop {
         clearscreen::clear().unwrap();
@@ -20,7 +20,7 @@ fn main() {
                 println!("Error rendering page:{}.\nPress any key to continue...", pg_err);
                 wait_for_key_press();
             }
-            let user_input = io_utils::get_user_input();
+            let user_input: String = io_utils::get_user_input();
             match page.handle_input(user_input.trim()) {
                 Err(err) => {
                     println!("Error handling input: {}\nPress any key to continue...", err);

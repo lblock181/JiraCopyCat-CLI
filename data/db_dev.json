@@ -1,1 +1,5 @@
-{"last_item_id":1,"epics":{"1":{"name":"epic","description":"epicde","status":"InProgress","stories":[]}},"stories":{}}
+{
+    "last_item_id": 0,
+    "epics": {},
+    "stories": {}
+}
